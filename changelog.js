@@ -37,10 +37,10 @@ function localStorageManager(pageload) {
       document.getElementById("refkwhtml").innerHTML = "-- DEFAULT --<br>" + "* " + refactorKwList.join("<br>* ") + "<br>-------------<br>";
     }
   } else {
-    localStorage.setItem('tacticsch-chgmaker-url-storage', document.getElementById("urlhtml").value );
-    localStorage.setItem('tacticsch-chgmaker-token-storage', document.getElementById("apitoken").value );
-    localStorage.setItem('tacticsch-chgmaker-before-storage', document.getElementById("beforedate").value );
-    localStorage.setItem('tacticsch-chgmaker-after-storage', document.getElementById("afterdate").value );
+    localStorage.setItem('tacticsch-chgmaker-url-storage', document.getElementById("urlhtml").value);
+    localStorage.setItem('tacticsch-chgmaker-token-storage', document.getElementById("apitoken").value);
+    localStorage.setItem('tacticsch-chgmaker-before-storage', document.getElementById("beforedate").value);
+    localStorage.setItem('tacticsch-chgmaker-after-storage', document.getElementById("afterdate").value);
   }
 }
 
@@ -49,21 +49,21 @@ function keywordAdder(commitType) {
     case 1:
       featureKwList = defaultfeatlist;
       featureKwList.push(document.getElementById("featkwinput").value);
-      localStorage.setItem('tacticsch-chgmaker-feature-keywords', JSON.stringify(featureKwList) );
+      localStorage.setItem('tacticsch-chgmaker-feature-keywords', JSON.stringify(featureKwList));
       featureKwList = JSON.parse(localStorage.getItem('tacticsch-chgmaker-feature-keywords'));
       document.getElementById("featurekwhtml").innerHTML = "* " + featureKwList.join("<br>* ");
       break;
     case 2:
       fixesKwList = defaultfixlist;
       fixesKwList.push(document.getElementById("fixkwinput").value);
-      localStorage.setItem('tacticsch-chgmaker-fix-keywords', JSON.stringify(fixesKwList) );
+      localStorage.setItem('tacticsch-chgmaker-fix-keywords', JSON.stringify(fixesKwList));
       fixesKwList = JSON.parse(localStorage.getItem('tacticsch-chgmaker-fix-keywords'));
       document.getElementById("fixkwhtml").innerHTML = "* " + fixesKwList.join("<br>* ");
       break;
     case 3:
       refactorKwList = defaultreflist;
       refactorKwList.push(document.getElementById("refkwinput").value);
-      localStorage.setItem('tacticsch-chgmaker-ref-keywords', JSON.stringify(refactorKwList) );
+      localStorage.setItem('tacticsch-chgmaker-ref-keywords', JSON.stringify(refactorKwList));
       refactorKwList = JSON.parse(localStorage.getItem('tacticsch-chgmaker-ref-keywords'));
       document.getElementById("refkwhtml").innerHTML = "* " + refactorKwList.join("<br>* ");
       break;
@@ -78,19 +78,19 @@ function keywordClearer(commitType) {
     case 1:
       localStorage.removeItem('tacticsch-chgmaker-feature-keywords');
       featureKwList = defaultfeatlist;
-      localStorage.setItem('tacticsch-chgmaker-feature-keywords', JSON.stringify(featureKwList) );
+      localStorage.setItem('tacticsch-chgmaker-feature-keywords', JSON.stringify(featureKwList));
       document.getElementById("featurekwhtml").innerHTML = "-- DEFAULT --<br>" + "* " + featureKwList.join("<br>* ") + "<br>-------------<br>";
       break;
     case 2:
       localStorage.removeItem('tacticsch-chgmaker-fix-keywords');
       fixesKwList = defaultfixlist;
-      localStorage.setItem('tacticsch-chgmaker-fix-keywords', JSON.stringify(fixesKwList) );
+      localStorage.setItem('tacticsch-chgmaker-fix-keywords', JSON.stringify(fixesKwList));
       document.getElementById("fixkwhtml").innerHTML = "-- DEFAULT --<br>" + "* " + fixesKwList.join("<br>* ") + "<br>-------------<br>";
       break;
     case 3:
       localStorage.removeItem('tacticsch-chgmaker-ref-keywordss');
       refactorKwList = defaultreflist;
-      localStorage.setItem('tacticsch-chgmaker-ref-keywords', JSON.stringify(refactorKwList) );
+      localStorage.setItem('tacticsch-chgmaker-ref-keywords', JSON.stringify(refactorKwList));
       document.getElementById("refkwhtml").innerHTML = "-- DEFAULT --<br>" + "* " + refactorKwList.join("<br>* ") + "<br>-------------<br>";
       break;
     default:
@@ -104,10 +104,10 @@ function clearFields() {
   document.getElementById("apitoken").value = "";
   document.getElementById("beforedate").value = "";
   document.getElementById("afterdate").value = "";
-  localStorage.setItem('tacticsch-chgmaker-url-storage', document.getElementById("urlhtml").value );
-  localStorage.setItem('tacticsch-chgmaker-token-storage', document.getElementById("apitoken").value );
-  localStorage.setItem('tacticsch-chgmaker-before-storage', document.getElementById("beforedate").value );
-  localStorage.setItem('tacticsch-chgmaker-after-storage', document.getElementById("afterdate").value );
+  localStorage.setItem('tacticsch-chgmaker-url-storage', document.getElementById("urlhtml").value);
+  localStorage.setItem('tacticsch-chgmaker-token-storage', document.getElementById("apitoken").value);
+  localStorage.setItem('tacticsch-chgmaker-before-storage', document.getElementById("beforedate").value);
+  localStorage.setItem('tacticsch-chgmaker-after-storage', document.getElementById("afterdate").value);
 }
 
 async function getCommits(repoUrl, nbCommits, apiKey, beforeDate, afterDate) {
@@ -123,24 +123,24 @@ async function getCommits(repoUrl, nbCommits, apiKey, beforeDate, afterDate) {
     dateParameters = `&until=${beforeDate}`;
   }
 
-  const headersRequest = await fetch(repoUrl+"1",{
+  const headersRequest = await fetch(repoUrl + "1", {
     method: "GET",
     headers: {
-      Authorization: `token ${apiKey}` 
+      Authorization: `token ${apiKey}`
     },
   });
 
   let headerLink = headersRequest.headers.get("link");
   if (headerLink) {
     rgxmatch = headerLink.match(/&page=(\d*)>; rel="last"/);
-    totalPage = Math.ceil(rgxmatch[1]/nbCommits);
+    totalPage = Math.ceil(rgxmatch[1] / nbCommits);
   }
 
   for (let i = 1; i <= totalPage; i++) {
-    const repoContent = await fetch(repoUrl+nbCommits+"&page="+i+dateParameters,{
+    const repoContent = await fetch(repoUrl + nbCommits + "&page=" + i + dateParameters, {
       method: "GET",
       headers: {
-        Authorization: `token ${apiKey}` 
+        Authorization: `token ${apiKey}`
       },
     });
     const jsonCommits = await repoContent.json();
@@ -164,30 +164,30 @@ async function sortCommits() {
   const refs = [];
   const others = [];
 
-  commitMessages.forEach(function callbackFn(commit) { 
+  commitMessages.forEach(function callbackFn(commit) {
     featureKwList.forEach(function callbackFn(balise) {
       if (commit.match(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"))) {
         //features.push(commit.replace(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"),''));
         features.push(commit);
-      } 
+      }
     });
   });
 
-  commitMessages.forEach(function callbackFn(commit) { 
+  commitMessages.forEach(function callbackFn(commit) {
     fixesKwList.forEach(function callbackFn(balise) {
       if (commit.match(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"))) {
         // fixes.push(commit.replace(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"),''));
         fixes.push(commit);
-      } 
+      }
     });
   });
 
-  commitMessages.forEach(function callbackFn(commit) { 
+  commitMessages.forEach(function callbackFn(commit) {
     refactorKwList.forEach(function callbackFn(balise) {
       if (commit.match(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"))) {
         // refs.push(commit.replace(new RegExp(`(?!\\)\\] - )\\[?${balise}[\\]|:]`, "g"), ''));
         refs.push(commit);
-      } 
+      }
     });
   });
 
@@ -196,7 +196,7 @@ async function sortCommits() {
   otherKwlist = otherKwlist.concat(refactorKwList);
 
   commitMessages.forEach(function callbackFn(commit) {
-    let noMatch = 0; 
+    let noMatch = 0;
     for (let i = 0; i < otherKwlist.length; i++) {
       if (!commit.match(new RegExp(`(?!\\)\\] - )\\[?${otherKwlist[i]}[\\]|:]`, "g"))) {
         noMatch++;
@@ -228,5 +228,3 @@ async function sortCommits() {
   console.log("MARKED");
   document.getElementById("content_md").innerHTML = marked(newBody);
 }
-
-
